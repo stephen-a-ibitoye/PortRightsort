@@ -1,20 +1,25 @@
+import Header from "@/components/landing/Header";
+import Hero from "@/components/landing/Hero";
+import Works from "@/components/landing/Works";
+import About from "@/components/landing/About";
+import Services from "@/components/landing/Services";
+import Clients from "@/components/landing/Clients";
+import Contact from "@/components/landing/Contact";
+import Footer from "@/components/landing/Footer";
+
 export default function Home() {
   return (
     <div className="bg-black text-white">
-      <section
-        className="h-screen bg-cover bg-center flex items-center justify-center"
-        style={{ backgroundImage: "url(/path/to/your/hero-image.jpg)" }}
-      >
-        <div className="text-center">
-          <h1 className="text-6xl font-bold">We craft identity, experience and presence.</h1>
-          <a
-            href="/works"
-            className="mt-8 inline-block bg-white text-black py-4 px-8 rounded-full font-bold"
-          >
-            Our Works
-          </a>
-        </div>
-      </section>
+      <Header />
+      <main>
+        <Hero />
+        <Works />
+        <About />
+        <Services />
+        <Clients />
+        <Contact />
+      </main>
+      <Footer />
     </div>
   );
 }

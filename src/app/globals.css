@@ -7,9 +7,15 @@ html {
 }
 
 body {
-  @apply bg-black text-white;
+  @apply bg-brand-black text-brand-white;
+  cursor: url('/images/cursor.png'), auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
   @apply font-bold;
+  transition: all 0.3s ease-in-out;
+}
+
+h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover {
+  color: #a0a0a0;
 }

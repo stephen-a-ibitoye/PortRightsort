@@ -1,48 +1,76 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
-const OurWorks: React.FC = () => {
-  const works = [
-    'Gen-32-1.png',
-    'Berrics-23.jpg',
-    'Cariuma-12.jpg',
-    'Zuso-11.jpg',
-    'Superela-8.jpg',
-    'Gen-21-1.png',
-    'Berrics-22.jpg',
-    'Cariuma-11.jpg',
-    'Superela-23.jpg',
-  ];
+import Gen32 from '../assets/Gen-32-1.png';
+import Berrics23 from '../assets/Berrics-23.jpg';
+import Cariuma12 from '../assets/Cariuma-12.jpg';
+import Superela8 from '../assets/Superela-8.jpg';
+import Gen21 from '../assets/Gen-21-1.png';
+import Berrics22 from '../assets/Berrics-22.jpg';
+import Cariuma11 from '../assets/Cariuma-11.jpg';
+import Superela23 from '../assets/Superela-23.jpg';
 
+const works1 = [Gen32, Berrics23, Cariuma12, Superela8];
+const works2 = [Gen21, Berrics22, Cariuma11, Superela23];
+
+const OurWorks: React.FC = () => {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
+  const [innerWidth, setInnerWidth] = useState(0);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleResize = () => {
+        setInnerWidth(window.innerWidth);
+      };
+
+      handleResize();
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, []);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+
+  const x1 = useTransform(scrollYProgress, [0, 1], [0, -(innerWidth || 0)]);
+  const x2 = useTransform(scrollYProgress, [0, 1], [0, innerWidth || 0]);
+
   return (
-    <section id="our-works" className="py-16 bg-black text-white" ref={ref}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center mb-8">Our Works</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {works.map((work, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group"
-            >
-              <div className="overflow-hidden">
-                <img
-                  src={`/src/assets/${work}`}
-                  alt={`Work ${index + 1}`}
-                  className="w-full h-auto object-cover transform transition-transform duration-500 group-hover:scale-110"
-                />
-              </div>
-            </motion.div>
+    <section id="our-works" className="py-24 bg-black text-white" ref={ref}>
+      <div className="container mx-auto px-6 lg:px-8">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 20 }}
+          transition={{ duration: 1 }}
+          className="text-4xl md:text-5xl font-bold text-center mb-16"
+        >
+          Our Works
+        </motion.h2>
+      </div>
+      <div className="relative h-[500px]">
+        <motion.div
+          style={{ x: x1 }}
+          className="absolute top-0 left-0 flex space-x-8"
+        >
+          {works1.map((work, index) => (
+            <img key={index} src={work} alt={`Work ${index + 1}`} className="h-64 rounded-lg" />
           ))}
-        </div>
+        </motion.div>
+        <motion.div
+          style={{ x: x2 }}
+          className="absolute bottom-0 right-0 flex space-x-8"
+        >
+          {works2.map((work, index) => (
+            <img key={index} src={work} alt={`Work ${index + 1}`} className="h-64 rounded-lg" />
+          ))}
+        </motion.div>
       </div>
     </section>
   );

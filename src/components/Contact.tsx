@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa6';
+import { FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 
 const Contact: React.FC = () => {
   const { ref, inView } = useInView({
